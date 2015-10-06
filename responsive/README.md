@@ -1,8 +1,7 @@
-<<<<<<< HEAD
+
 # comp20-kwang
-=======
 #responsive
->>>>>>> 387c49f756402e3429515146bcb13d7d66298515
+
 
 The HTML file named index.html and CSS file named responsive.css. It is a web page that if you resize the browser screen width, a different part of the image will be rendered. That is:
 
