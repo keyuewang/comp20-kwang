@@ -1,1 +1,14 @@
-/* Your CSS here... */
+h1 {
+	font-family: Helvetica;
+	color: white;
+	background-color: black;
+	padding: 20px;
+}
+p {
+	font-family: Verdana;
+	margin:10px;
+	padding:10px;
+	color:white;
+	background-color:blue;
+	border-radius: 5px 20px;
+}
