@@ -12,7 +12,7 @@ function parse(){
 			data = JSON.parse(message.responseText);
 			elem = document.getElementById("messages");
 			for (count = 0; count < data.length; count++){
-				elem.innerHTML += "<p> + data[count]["content"] + data[count]["username"] + </p>";
+				elem.innerHTML += "<p>" + data[count]["content"] + data[count]["username"] + "</p> "
 			}
 		}
 	}
