@@ -5,4 +5,4 @@ For security reasons, XMLHttpRequest requests follow the browser's same-origin p
 
 In this lab, I modified the lab.js file to open the JSON file using XMLHttpRequest, parse the JSON data. When you open "http://tuftsdev.github.io/comp20-kwang/messages", you can see the "messages" in the data.json file. Also, I modified the CSS file to make the page look better.
 
-I spent about 2 hours to learn the XMLHttpRequest object, the same-origin policy and how to parse the JSON file and finished the lab.
+I spent about 2 hours learning the XMLHttpRequest object, the same-origin policy and how to parse the JSON file and finished the lab.
