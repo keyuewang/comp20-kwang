@@ -1,9 +1,8 @@
 # comp20-kwang
-# Lab 6: Messages
+# messages
 
-For security reasons, XMLHttpRequest requests follow the browser's same-origin policy, and will therefore only succeed if they are made to the host that served the original web page. Cross origin requests are only supported for protocol schemes: http, data, chrome, chrome-extension, https, chrome-extension-resource. In this lab, simply opening the index.html page on a web browser will not work, because the page is in the local, not be hosted on a web server. It is impossible to request the data from a different origin either, due to the same-origin policy.
+For security reasons, XMLHttpRequest requests follow the browser's same-origin policy, and will therefore only succeed if they are made to the host that served the original web page. In this assignment, if we simply open the index.html page on a web browser we will not see the content of the JSON file. It is because using the XMLHttpRequest to open a file requires your page to be hosted on a web server. We can solve this problem by opening "http://tuftsdev.github.io/comp20-kwang/messages". Further more, it is impossible either to request the data from a different origin using XMLHttpRequest due to the same-origin policy.
 
-In this assignment, I modified the lab.js to open the JSON file using XMLHttpRequest, parse the JSON data.So when you open the index.html, you can see the "messages" in the data.json file.
+In this lab, I modified the lab.js file to open the JSON file using XMLHttpRequest, parse the JSON data. When you open "http://tuftsdev.github.io/comp20-kwang/messages", you can see the "messages" in the data.json file. Also, I modified the CSS file to make the page look better.
 
-I spend about 2 hours to learn the XMLHttpRequest object, how to parse the JSON file, what is the same-origin policy and finished this lab.
-
+I spent about 2 hours learning the XMLHttpRequest object, the same-origin policy and how to parse the JSON file and finished the lab.
