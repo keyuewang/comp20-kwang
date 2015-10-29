@@ -42,7 +42,7 @@
 							  showmyWindow(contentString,currentLocation,map);
 
 							  for(var i = 1; i<personJson.length; i++) {
-								var contentString = "login: "+personJson[index].login+"; latitude:"+personJson[index].lat+"; longitude:"+personJson[index].lng+"; message:"+personJson[index].message+"; miles away from me: "+getDistance(personJson[index].lat,personJson[index].lng,personJson[i].lat,personJson[i].lng);
+								var contentString = "login: "+personJson[i].login+"; latitude:"+personJson[i].lat+"; longitude:"+personJson[i].lng+"; message:"+personJson[i].message+"; miles away from me: "+getDistance(personJson[index].lat,personJson[index].lng,personJson[i].lat,personJson[i].lng);
 	
 								var location = new google.maps.LatLng(personJson[i].lat,personJson[i].lng);
 								showWindow(contentString,location,map);
@@ -63,7 +63,7 @@
         icon: image,
         title: "I am HawkRichards!"
       });
-      mymarker.setMap(map);
+      marker.setMap(map);
       var infowindow = new google.maps.InfoWindow({
       	content: contentString
       });
@@ -78,7 +78,7 @@
         position: location,
         title: "click me!"
       });
-      mymarker.setMap(map);
+      marker.setMap(map);
       var infowindow = new google.maps.InfoWindow({
       	content: contentString
       });
