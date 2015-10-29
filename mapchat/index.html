@@ -53,6 +53,7 @@
 							  var map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
 							  var titleData = "latitude:"+personJson[index].lat+";longitude:"+personJson[index].lng+";myName:"+personJson[index].login+"message:"+personJson[index].message;
 							  showmyWindow(titleData,currentLocation,map);
+
 							  for(var i = 1; i<personJson.length; i++) {
 								var titleData = "latitude:"+personJson[index].lat+";longitude:"+personJson[index].lng+";login:"+personJson[index].login+"message:"+personJson[index].message+"distance:"+getDistance(personJson[index].lat,personJson[index].lng,personJson[i].lat,personJson[i].lng);
 								var location = new google.maps.LatLng(personJson[i].lat,personJson[i].lng);
@@ -69,6 +70,7 @@
 			
     }
 
+
     function showmyWindow(titleData,currentLocation,map) {
       var image = 'mapmarker.jpg';
       var mymarker = new google.maps.Marker({
@@ -84,7 +86,6 @@
         infowindow.open(map,mymarker);
       });
     }
-    
 
     function showWindow(titleData,location,map) {
       var mymarker = new google.maps.Marker({
@@ -98,6 +99,12 @@
         infowindow.open(map,mymarker);
       });
     }
+    
+
+
+
+
+
 
     /**
      * [get distance]
