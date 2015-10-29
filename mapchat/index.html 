@@ -31,19 +31,18 @@
 										break;
 									}
 								}
-								console.log(personJson[j].lat);	
 							  var currentLocation = new google.maps.LatLng(personJson[index].lat,personJson[index].lng);
 							  var myOptions = {
 								zoom: 13,
 								center: currentLocation,
 								mapTypeId: google.maps.MapTypeId.ROADMAP
 							  };
-							  var contentString = "latitude:"+personJson[index].lat+";longitude:"+personJson[index].lng+";myName is:"+personJson[index].login+";message:"+personJson[index].message;
+							  var contentString = "I am "+personJson[index].login+"; my latitude is: "+personJson[index].lat+"; my longitude is: "+personJson[index].lng+"; message:"+personJson[index].message;
 							  var map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
 							  showmyWindow(contentString,currentLocation,map);
 
 							  for(var i = 1; i<personJson.length; i++) {
-								var contentString = "latitude:"+personJson[index].lat+";longitude:"+personJson[index].lng+";login:"+personJson[index].login+";message:"+personJson[index].message+";miles away from me: "+getDistance(personJson[index].lat,personJson[index].lng,personJson[i].lat,personJson[i].lng);
+								var contentString = "login: "+personJson[index].login+"; latitude:"+personJson[index].lat+"; longitude:"+personJson[index].lng+"; message:"+personJson[index].message+"; miles away from me: "+getDistance(personJson[index].lat,personJson[index].lng,personJson[i].lat,personJson[i].lng);
 	
 								var location = new google.maps.LatLng(personJson[i].lat,personJson[i].lng);
 								showWindow(contentString,location,map);
@@ -59,9 +58,8 @@
 
     function showmyWindow(contentString,currentLocation,map) {
       var image = 'marker.png';
-      var mymarker = new google.maps.Marker({
+      var marker = new google.maps.Marker({
         position: currentLocation,
-        //map: map,
         icon: image,
         title: "I am HawkRichards!"
       });
@@ -70,14 +68,13 @@
       	content: contentString
       });
  
-      google.maps.event.addListener(mymarker , 'click', function() {
-        infowindow.setContent(mymarker.title);
-        infowindow.open(map,mymarker);
+      marker.addListener('click', function() {;
+        infowindow.open(map,marker);
       });
     }
 
     function showWindow(contentString,location,map) {
-      var mymarker = new google.maps.Marker({
+      var marker = new google.maps.Marker({
         position: location,
         title: "click me!"
       });
@@ -86,9 +83,8 @@
       	content: contentString
       });
 
-      google.maps.event.addListener(mymarker , 'click', function() {
-        infowindow.setContent(mymarker.title);
-        infowindow.open(map,mymarker);
+      marker.addListener('click', function() {
+        infowindow.open(map,marker);
       });
     }
  
