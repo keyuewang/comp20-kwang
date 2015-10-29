@@ -95,7 +95,7 @@
               Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * 
               Math.sin(dlng/2) * Math.sin(dlng/2);
       var c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-      return a*c/1.60934;
+      return r*c/1.60934;
     }
     function toRad(dif) {
       return dif * Math.PI / 180;
