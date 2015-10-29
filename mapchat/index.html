@@ -4,38 +4,26 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 <title>Map Chat</title>
-<link rel="stylesheet" href="mapchat_style.css">
+<link rel="stylesheet" href="style.css">
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-<script type="text/javascript">
+<script>
     var myLat = 0;
     var myLng = 0;
-    
 
-
-
-
-    function initialize() {
-		  var personJson = null;
-		  var http_request = null;
-		  if (window.XMLHttpRequest) {
-			http_request = new XMLHttpRequest();
-		  }
-		  else if (window.ActiveXObject) {
-			http_request = new ActiveXObject("Microsoft.XMLHTTP");
-		  }
-		  if(http_request != null) {
+    function init(){
+		  
+		var personJson = null;
+		var http_request = new XMLHttpRequest();
 			if(navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position) {
 				  myLat = position.coords.latitude;
 				  myLng = position.coords.longitude; 
-				  
 				  var param = "login=HawkRichards&lat=" + myLat + "&lng=" + myLng + "&message=" + encodeURIComponent("Wish your happy");
 					http_request.open("POST", "http://secret-about-box.herokuapp.com/sendLocation", true);
 					http_request.setRequestHeader("Content-type","application/x-www-form-urlencoded"); 
 					http_request.onreadystatechange = function () { 
 					  if (http_request.readyState == 4 && http_request.status == 200) {   		  
 							  personJson = JSON.parse(http_request.responseText); 
-
 								var index = 0;
 								for(var j = 0; j<personJson.length; j++) {
 									if( personJson[j].login == "HawkRichards") {
@@ -43,21 +31,22 @@
 										break;
 									}
 								}
-								//console.log(personJson[j].lat);	
+								console.log(personJson[j].lat);	
 							  var currentLocation = new google.maps.LatLng(personJson[index].lat,personJson[index].lng);
 							  var myOptions = {
 								zoom: 13,
 								center: currentLocation,
 								mapTypeId: google.maps.MapTypeId.ROADMAP
 							  };
+							  var contentString = "latitude:"+personJson[index].lat+";longitude:"+personJson[index].lng+";myName is:"+personJson[index].login+";message:"+personJson[index].message;
 							  var map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
-							  var titleData = "latitude:"+personJson[index].lat+";longitude:"+personJson[index].lng+";myName:"+personJson[index].login+"message:"+personJson[index].message;
-							  showmyWindow(titleData,currentLocation,map);
+							  showmyWindow(contentString,currentLocation,map);
 
 							  for(var i = 1; i<personJson.length; i++) {
-								var titleData = "latitude:"+personJson[index].lat+";longitude:"+personJson[index].lng+";login:"+personJson[index].login+"message:"+personJson[index].message+"distance:"+getDistance(personJson[index].lat,personJson[index].lng,personJson[i].lat,personJson[i].lng);
+								var contentString = "latitude:"+personJson[index].lat+";longitude:"+personJson[index].lng+";login:"+personJson[index].login+";message:"+personJson[index].message+";miles away from me: "+getDistance(personJson[index].lat,personJson[index].lng,personJson[i].lat,personJson[i].lng);
+	
 								var location = new google.maps.LatLng(personJson[i].lat,personJson[i].lng);
-								showWindow(titleData,location,map);
+								showWindow(contentString,location,map);
 							  }
 					  }  
 					}
@@ -67,52 +56,42 @@
 				alert("Geolocation is not supported by your web browser!");
 			  }
 		  }
-			
-    }
 
-
-    function showmyWindow(titleData,currentLocation,map) {
-      var image = 'mapmarker.jpg';
+    function showmyWindow(contentString,currentLocation,map) {
+      var image = 'marker.png';
       var mymarker = new google.maps.Marker({
-        position: location,
+        position: currentLocation,
         //map: map,
-        icon: image
-        title: titleData
+        icon: image,
+        title: "I am HawkRichards!"
       });
       mymarker.setMap(map);
-      var infowindow = new google.maps.InfoWindow();
+      var infowindow = new google.maps.InfoWindow({
+      	content: contentString
+      });
+ 
       google.maps.event.addListener(mymarker , 'click', function() {
         infowindow.setContent(mymarker.title);
         infowindow.open(map,mymarker);
       });
     }
 
-    function showWindow(titleData,location,map) {
+    function showWindow(contentString,location,map) {
       var mymarker = new google.maps.Marker({
         position: location,
-        title: titleData
+        title: "click me!"
       });
       mymarker.setMap(map);
-      var infowindow = new google.maps.InfoWindow();
+      var infowindow = new google.maps.InfoWindow({
+      	content: contentString
+      });
+
       google.maps.event.addListener(mymarker , 'click', function() {
         infowindow.setContent(mymarker.title);
         infowindow.open(map,mymarker);
       });
     }
-    
-
-
-
-
-
-
-    /**
-     * [get distance]
-     * @param   lat1 
-     * @param   lng1 
-     * @param   lat2 
-     * @param   lng2 
-     */
+ 
     function getDistance(lat1,lng1,lat2,lng2) {
       var r = 6371;
       var dlat = toRad(lat2 - lat1);
@@ -121,14 +100,16 @@
               Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * 
               Math.sin(dlng/2) * Math.sin(dlng/2);
       var c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-      return a*c;
+      return a*c/1.60934;
     }
     function toRad(dif) {
       return dif * Math.PI / 180;
-    }
+    }  
+
 </script>
 </head>
-<body onload="initialize()">
-  <div id="map_canvas"></div>
+
+<body onload="init()">
+  	<div id="map_canvas"></div>
 </body>
 </html>
