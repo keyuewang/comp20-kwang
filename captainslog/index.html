@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<title>Captain's Log</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script>
+	  $(document).ready(function(){
+	  	reload();
+	  	function reload(){
+			elem = document.getElementById("log");
+			output = "";
+			for (key in localStorage) {
+				output = output + "<p>" + localStorage[key] + "</p>\n";
+			}
+			elem.innerHTML = output;
+		}
+
+	  	$("#msg").keypress(function(e){
+	  		if(e.which == 13){
+
+	  			txt = document.getElementById("msg").value;
+	  			var time = new Date();
+	  			var Weekday = time.getDay();
+	  			var weekday;
+	  			transfer_weekday(Weekday);
+	  			var day = time.getDate();
+	  			var month = time.getMonth() + 1;
+	  			var year = time.getFullYear();
+	  			var hours = time.getHours();
+	  			var minutes = time.getMinutes();
+	  			var seconds = time.getSeconds();
+	  			var Log =  weekday+" "+month+"/"+day+"/"+year+" "+hours+":"+minutes+":"+seconds+" - "+txt;
+
+	  			$("#log").prepend("<p>"+ Log +"</p>");
+				localStorage.setItem(new Date().getTime(),Log);
+
+				function transfer_weekday(Weekday){
+					if(Weekday == 0)
+						weekday = "Sun";
+					if(Weekday == 1)
+						weekday = "Mon";
+					if(Weekday == 2)
+						weekday = "Tues";
+					if(Weekday == 3)
+						weekday = "Wed";
+					if(Weekday == 4)
+						weekday = "Thurs";
+					if(Weekday == 5)
+						weekday = "Fri";
+					if(Weekday == 6)
+						weekday = "Sat";
+					return weekday;
+				}
+			}
+	  	})
+	});
+	</script>
+</head>
+
+<body>
+	<h1>Captain's Log</h1>
+	<h3>New entry: <input type="text" id="msg" name="msg" size="30" /></h3>
+	<div id="log"></div>
+</body>
+</html>
+
+
+
