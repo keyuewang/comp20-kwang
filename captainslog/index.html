@@ -22,16 +22,8 @@
 
 	  			txt = document.getElementById("msg").value;
 	  			var time = new Date();
-	  			var Weekday = time.getDay();
-	  			var weekday;
-	  			transfer_weekday(Weekday);
-	  			var day = time.getDate();
-	  			var month = time.getMonth() + 1;
-	  			var year = time.getFullYear();
-	  			var hours = time.getHours();
-	  			var minutes = time.getMinutes();
-	  			var seconds = time.getSeconds();
-	  			var Log =  weekday+" "+month+"/"+day+"/"+year+" "+hours+":"+minutes+":"+seconds+" - "+txt;
+	  			var timestamp = time.toString();
+	  			var Log =  timestamp+" - "+txt;
 
 	  			$("#log").prepend("<p>"+ Log +"</p>");
 				localStorage.setItem(new Date().getTime(),Log);
