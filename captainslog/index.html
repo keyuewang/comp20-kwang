@@ -36,23 +36,6 @@
 	  			$("#log").prepend("<p>"+ Log +"</p>");
 				localStorage.setItem(new Date().getTime(),Log);
 
-				function transfer_weekday(Weekday){
-					if(Weekday == 0)
-						weekday = "Sun";
-					if(Weekday == 1)
-						weekday = "Mon";
-					if(Weekday == 2)
-						weekday = "Tues";
-					if(Weekday == 3)
-						weekday = "Wed";
-					if(Weekday == 4)
-						weekday = "Thurs";
-					if(Weekday == 5)
-						weekday = "Fri";
-					if(Weekday == 6)
-						weekday = "Sat";
-					return weekday;
-				}
 			}
 	  	})
 	});
