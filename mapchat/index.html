@@ -18,7 +18,7 @@
 				  myLat = position.coords.latitude;
 				  myLng = position.coords.longitude; 
 				  var param = "login=HawkRichards&lat=" + myLat + "&lng=" + myLng + "&message=" + encodeURIComponent("Wish your happy");
-					http_request.open("POST", "http://secret-about-box.herokuapp.com/sendLocation", true);
+					http_request.open("POST", "http://shielded-journey-5174.herokuapp.com/sendLocation", true);
 					http_request.setRequestHeader("Content-type","application/x-www-form-urlencoded"); 
 					http_request.onreadystatechange = function () { 
 					  if (http_request.readyState == 4 && http_request.status == 200) {   		  
