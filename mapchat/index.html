@@ -24,7 +24,7 @@
 					  if (http_request.readyState == 4 && http_request.status == 200) {   		  
 							  personJson = JSON.parse(http_request.responseText); 
 								var index = 0;
-								for(var j = 0; j<personJson.length; j++) {
+								for(var j = 0; j<personJson.length-1; j++) {
 									if( personJson[j].login == "HawkRichards") {
 										index = j;
 										break;
