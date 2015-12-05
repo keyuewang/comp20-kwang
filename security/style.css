@@ -4,11 +4,6 @@ body {
   line-height: 1.6;
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: white;
   padding: 30px; 
 }
 
- #code_style {
- 	color: blue;
- 	background-color: #F1F1F1;
- }
