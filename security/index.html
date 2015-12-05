@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MapChat Security Report</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1"/>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+	<h1>MapChat Security Report</h1>
+	<p>by Keyue Wang</p>
+	<p>12/4/2015</p><hr>
+
+	<h2>Introduction</h2>
+	<p>My goal in this assignment is to find as many security and privacy problems as I can from the web application developed by Francesca Caiazzo for Comp20 assignment 2 and 3. This product is a map application that you can see where are you in the map and know the distances between you and other logins and get the messsages from them. You can also get the latest login information of one of the approved logins. In the <a href="https://still-harbor-2507.herokuapp.com/">homepage</a>, you can get a list of the check-ins and messages for all logins sorted in descending order by timestamp.</p><hr>
+
+	<h2>Methodology</h2>
+	<p>First, perform attacks WITHOUT reading the source code. This is also known as "black box" testing. I used <code>curl --data</code> to send some invalid data to the /sendLocation and it did "work".</p>
+	<p>Then I read the source code and found other vulnerabilities and used <code>curl --data</code> to crash the application again.</p><hr>
+
+	<h2>Abstract of Findings</h2>
+	<p>In this project, the securitpy issues that can be easily generated are basically from the unexpected external data, hackers can send this kind of data just using <code>curl --data</code>, which is definitely simple to achieve. These malicious actions can change the contents of the website or insert some invalid/malicious information to the application. </p><hr>
+
+	<h2>Issues Found</h2>
+	<h3>1. Cross-Cross-Site Scripting</h3>
+	<p>Cross-Site Scripting (also known as XSS) is one of the most common application-layer web attacks. Malicious users can manipulate client-side scripts of a web application to execute in the manner desired by them. Such a manipulation can embed a script in a page that can be executed every time the page is loaded. In this project, they easiest way to use the XSS vulnerability is embeding a script in the "message" because there is <b>no restriction</b> on the content of the "message". Normally, people would send a "real" message to the server("hello world" for example) . However, the bad guy can use this leak to embed a script as a message. Here is what I did(not malicious at all, but did do something unexpected.)</p>
+	<img src="curl_xss.png" alt="curl --data xss" style="width:90%;height:90%;">
+	<p>When we refresh the website, we can see the change, and it will executed every time when the page is loaded. Definitely annoying!</p>
+	<img src="XSS.jpg" alt="xss" style="width:90%;height:90%;">
+	<p>To avoid having Cross-site Scripting (XSS) vulnerabilites like this case, developers can use the technology by sanitizing userinputted data in an HTTP request before reflecting it back. Convert special characters
+	such as <code>?, &amp;,  /, &lt; ></code>, and spaces to their respective HTML or URL encoded equivalents </p><hr>
+	<h3>2. Injection Unvalid Data</h3>
+	<p>After reading the source code, I found that there is no digital range limit about the <code>lat</code> and <code>lng</code> , which means as long as the input <code>lat</code> and <code>lng</code> are numeric values, the data can be sent successfully. ( Because there is a validate about the content of lat and lng :</p>
+	<div id="code_style">
+		<code>if (validLogins.indexOf(checkin.login) != (-1) && (checkin.lat) && (!isNaN(checkin.lat)) && (checkin.lng) && (!isNaN(checkin.lng)) && (!!checkin.message)) </code>
+	</div>
+	<p>click <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN">this link</a> to see more about <b><code>isNaN</code></b></p>
+	<p>When I input a non-existent latitude and longtitude to the database, it successed.</p>
+	<img src="invalid_data.png" alt="curl --data invalid data" style="width:90%;height:90%;">
+	<p>When we refresh the website, we can see this record.</p>
+	<img src="invalid_data_sendlocation.jpg" alt="invalid_data_sendlocation" style="width:90%;height:90%;">
+	<p>Also, when we want to know the latest login=mchow, we can get this.</p>
+	<img src="invalid_data_latest_json.jpg" alt="invalid_data_latest_json.jpg" style="width:90%;height:90%;">
+	<p>It's very easy to fix this leak, just add this code: ( as Ming does -- to make sure the login is on the earth.)</p>
+	<img src="lat_lng.png" alt="lat_lng" style="width:50%;height:50%;"><hr>
+	<h3>3. Find Documents Using <a href="https://docs.mongodb.org/manual/reference/operator/query/ne/">[$ne]</a></h3>
+	<p>This technical issue -- using [$ne] to return the latest login information can realize the hacker's dream that get users' information without knowing their names. After loading this page, they will know the latest user's information.</p>
+	<img src="login.jpg" alt="login" style="width:90%;height:90%;">
+	<p>The code below is what I do to resolve this issue. </p>
+	<img src="solve.png" alt="solve" style="width:50%;height:50%;">
+	<img src="my_app.JPG" alt="my app" style="width:50%;height:50%;"><hr>
+	<h2>Conclusion</h2>
+	<p>With the increasingly development of web application, more and more information sharing through social networking and increasing business adoption of the Web as a means of doing business and delivering service, websites are often attacked directly. Although in the assignment 2 and 3, the security issue result from the vulnerabilities of the web application are not severe as other websites like online banks, we need to focus on the potential security risks of any web application. However, many vulnerabilities are easy to find and resolve, just keep the web security on mind. </p>
+	<hr><br>
+	
+	<p style="text-align:center;"><code>Security 101: never trust user input from a client.</code></p>
+</body>
+</html>
+
