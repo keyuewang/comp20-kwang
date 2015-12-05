@@ -23,6 +23,7 @@
 
 	<h2>Issues Found</h2>
 	<h3>1. Cross-Cross-Site Scripting</h3>
+	<h4>Severity of issue: <b>high</b></h4>
 	<p>Cross-Site Scripting (also known as XSS) is one of the most common application-layer web attacks. Malicious users can manipulate client-side scripts of a web application to execute in the manner desired by them. Such a manipulation can embed a script in a page that can be executed every time the page is loaded. In this project, they easiest way to use the XSS vulnerability is embedding a script in the "message" because there is <b>no restriction</b> on the content of the "message". Normally, people would send a "real" message to the server("hello world" for example) . However, the bad guy can use this leak to embed a script as a message. Here is what I did(not malicious at all, but did do something unexpected.)</p>
 	<img src="curl_xss.png" alt="curl --data xss" style="width:90%;height:90%;">
 	<p>When we refresh the website, we can see the change, and it will executed every time when the page is loaded. Definitely annoying!</p>
@@ -30,6 +31,7 @@
 	<p>To avoid having Cross-site Scripting (XSS) vulnerabilites like this case, developers can use the technology by sanitizing userinputted data in an HTTP request before reflecting it back. Convert special characters
 	such as <code>?, &amp;,  /, &lt; ></code>, and spaces to their respective HTML or URL encoded equivalents </p><hr>
 	<h3>2. Injection Invalid Data</h3>
+	<h4>Severity of issue: <b>medium</b></h4>
 	<p>After reading the source code, I found that there is no digital range limit about the <code>lat</code> and <code>lng</code> , which means as long as the input <code>lat</code> and <code>lng</code> are numeric values, the data can be sent successfully. ( Because there is a validate about the content of lat and lng :</p>
 	<div id="code_style">
 		<code>if (validLogins.indexOf(checkin.login) != (-1) && (checkin.lat) && (!isNaN(checkin.lat)) && (checkin.lng) && (!isNaN(checkin.lng)) && (!!checkin.message)) </code>
@@ -44,6 +46,7 @@
 	<p>It's very easy to fix this leak, just add this code: ( as Ming does -- to make sure the login is on the earth.)</p>
 	<img src="lat_lng.png" alt="lat_lng" style="width:50%;height:50%;"><hr>
 	<h3>3. Find Documents Using <a href="https://docs.mongodb.org/manual/reference/operator/query/ne/">[$ne]</a></h3>
+	<h4>Severity of issue: <b>high</b></h4>
 	<p>This technical issue -- using [$ne] to return the latest login information can realize the hacker's dream that get users' information without knowing their names. After loading this page, they will know the latest user's information.</p>
 	<img src="login.jpg" alt="login" style="width:90%;height:90%;">
 	<p>The code below is what I do to resolve this issue. </p>
